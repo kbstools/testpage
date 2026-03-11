@@ -226,6 +226,7 @@ color:white;
         <li>Price Adjustment modal restored with full products</li>
         <li>Transparent menu icon</li>
         <li>Fixed generator (cakes solo, rounding 150–250)</li>
+        <li>✅ Generation History Feature Fixed</li>
       </ul>
       <button class="close-btn" onclick="closeVersion()">OK</button>
     </div>
@@ -455,8 +456,6 @@ function openPriceAdjust(){ loadPrices(); renderPriceAdjust(); $("#priceModal").
 function closePriceAdjust(){ $("#priceModal").style.display="none"; }
 
 // ===== Generator (safe fallback) =====
-
-
 
 
 
@@ -731,9 +730,14 @@ function generate(){
   const summary=document.createElement("div");
   summary.className="summary-card";
   const diffFinal=+(totalGross - target).toFixed(2);
-  summary.innerHTML=`PROJECT SUMMARY<br>Receipts Requested: ${count}<br>Receipts Generated: ${receipts.length}<br>Target Gross: ${money(target)}<br>Grand Gross: ${money(totalGross)}<br>Difference: ${diffFinal>0?"+":""}${money(diffFinal)}`;
+  summary.innerHTML=`PROJECT SUMMARY<br>Receipts Requested: ${count}<br>Receipts Generated: ${receipts.length}<br>Target Gross: ${money(target)}<br>Grand Gross: ${money(totalGross)}<br>Difference: ${diffFinal >= 0 ? "+" : ""}${money(diffFinal)}`;
   $("#receipts").appendChild(summary);
+
+  // ✅ FIX: Save to history and store projectSummary
+  projectSummary = summary.outerHTML;
+  saveToHistory(receipts, $("#receipts").innerHTML);
 }
+
 // ===== Copy / Print / Report =====
 function copyAll(){
   const text = $("#receipts").innerText.trim();
@@ -764,6 +768,7 @@ document.getElementById("searchBox").addEventListener("input", e => renderPriceA
     <ul>
       <li>• Common bug fixes</li>
       <ul>
+        <li>✅ Fixed Generation History Feature</li>
         <li>Added a new Feature for large Reciepts count</li>
     </ul>
     <button onclick="closeWhatsNew()" class="btn">Cool!</button>
